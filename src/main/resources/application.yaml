@@ -29,4 +29,4 @@ spring:
         spring.json.trusted.packages: '*'
 
 server:
-  port: 8886
+  port: 8084
