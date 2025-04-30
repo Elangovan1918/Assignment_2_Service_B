@@ -33,7 +33,7 @@ public class BikeServiceImplServiceB implements BikeServiceInterServiceB {
 		
 		log.info("Bike saved in DB: {}", bikeDtoB);
 
-		BikeDtoB bikeResponse =restTemplate.postForEntity("http://localhost:8885/saveBikeA", bikeDtoB, BikeDtoB.class).getBody();
+		BikeDtoB bikeResponse =restTemplate.postForEntity("http://localhost:8082/saveBikeA", bikeDtoB, BikeDtoB.class).getBody();
 		
 		log.info("Response received from Service A: {}", bikeResponse);
 
