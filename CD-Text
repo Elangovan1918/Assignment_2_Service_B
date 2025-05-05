@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'DOCKER_TAG', defaultValue: 'latest', description: 'Docker Image Tag')
+    }
+
+    environment {
+        IMAGE_NAME = "elango1918/service_b:${params.DOCKER_TAG}"
+        NETWORK_NAME = "kafka_default"
+    }
+
+    stages {
+        stage('Docker Pull') {
+            steps {
+                script {
+                    sh "docker images -q ${IMAGE_NAME} | xargs -r docker rmi || echo 'No old image to remove'"
+                    sh "docker pull ${IMAGE_NAME}"
+                }
+            }
+        }
+
+        stage('Remove Old Container') {
+            steps {
+                script {
+                    sh "docker ps -q -f name=service_b | xargs -r docker stop"
+                    sh "docker ps -a -q -f name=service_b | xargs -r docker rm"
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sh "docker run -d --name service_b --network ${NETWORK_NAME} -p 8084:8084 -e SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092 ${IMAGE_NAME}"
+                }
+            }
+        }
+
+        stage('Check Container') {
+            steps {
+                script {
+                    sh "docker ps -f name=service_b"
+                }
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                script {
+                    echo 'Pipeline ends without stopping service_b'
+                }
+            }
+        }
+    }
+}
