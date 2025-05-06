@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-        git branch: 'feature', url: 'https://github.com/Elangovan1918/Assignment_2_Service_B.git'
+        git branch: 'main', url: 'https://github.com/Elangovan1918/Assignment_2_Service_B.git'
     }
         }
 
