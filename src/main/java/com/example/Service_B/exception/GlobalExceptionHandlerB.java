@@ -28,7 +28,7 @@ public class GlobalExceptionHandlerB {
 	
 	@ExceptionHandler({org.springframework.web.client.HttpClientErrorException.class,HttpServerErrorException.class})
 	public ResponseEntity<ResponseStructure>HttpClientErrorException(RestClientResponseException e){
-		responseStructure.setMessage("URL Incorrect"+e.getMostSpecificCause());
+		responseStructure.setMessage("URL Incorrect");
 		responseStructure.setStatus(HttpStatus.BAD_GATEWAY.value());
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 		
